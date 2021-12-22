@@ -11,6 +11,23 @@ const defaultFormValues = {
     credit: ""
 }
 
+function mockFetch(url: string, data: any) {
+    
+    return new Promise((resolve, reject) => {
+        console.log("making request for value of " + data)
+        if (url === "https://cuna-backend.com/qualified") {
+            if (data >= 300) {
+                resolve("qualified")
+            } else {
+                reject("disqualified")
+            }
+        } else {
+            reject("bad url")
+        }
+        
+    })
+}
+
 
 function Landing() {
     
@@ -18,8 +35,10 @@ function Landing() {
 
     const [ formValues, setFormValues ] = useState(defaultFormValues)
 
-    
     const dispatch = useDispatch()
+
+
+    
 
     function onChange(e: FormEvent<HTMLInputElement>) {
         setFormValues({
@@ -39,6 +58,14 @@ function Landing() {
             income: formValues.income,
             credit: formValues.credit
         }))
+
+        const response = mockFetch("https://cuna-backend.com/qualified", 500)
+        .then(res => {
+            console.log("Response recieved with value: " + res)
+        })
+        .catch(err => {
+            console.log("Response recieved with value: " + err)
+        })
     }
 
     return (
