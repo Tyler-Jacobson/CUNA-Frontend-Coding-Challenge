@@ -1,5 +1,6 @@
 import React, { useState, FormEvent, FC } from "react";
 import { useSelector, useDispatch } from "react-redux"
+import { CombinedState } from "redux";
 import { setUserDetails } from "../actions";
 
 const defaultFormValues = {
@@ -12,9 +13,12 @@ const defaultFormValues = {
 
 
 function Landing() {
+    
+    const userDetails = useSelector((state: CombinedState<any>) => state.userDetails)
 
     const [ formValues, setFormValues ] = useState(defaultFormValues)
 
+    
     const dispatch = useDispatch()
 
     function onChange(e: FormEvent<HTMLInputElement>) {
@@ -28,6 +32,7 @@ function Landing() {
         e.preventDefault()
         console.log(formValues)
         dispatch(setUserDetails({
+            ...userDetails,
             price: formValues.price,
             make: formValues.make,
             model: formValues.model,

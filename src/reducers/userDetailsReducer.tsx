@@ -4,7 +4,9 @@ const defaultUserDetails = {
     make: "",
     model: "",
     income: 0,
-    credit: 0
+    credit: 0,
+    username: "",
+    password: ""
 }
 
 const userDetailsReducer = (state = defaultUserDetails, action: any) => {
@@ -16,7 +18,9 @@ const userDetailsReducer = (state = defaultUserDetails, action: any) => {
                 make: action.payload.make,
                 model: action.payload.model,
                 income: action.payload.income,
-                credit: action.payload.credit
+                credit: action.payload.credit,
+                username: action.payload.username,
+                password: action.payload.password
             }
         default:
             return state
