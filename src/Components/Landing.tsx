@@ -1,4 +1,6 @@
 import React, { useState, FormEvent, FC } from "react";
+import { useSelector, useDispatch } from "react-redux"
+import { setUserDetails } from "../actions";
 
 const defaultFormValues = {
     price: "",
@@ -13,6 +15,8 @@ function Landing() {
 
     const [ formValues, setFormValues ] = useState(defaultFormValues)
 
+    const dispatch = useDispatch()
+
     function onChange(e: FormEvent<HTMLInputElement>) {
         setFormValues({
             ...formValues,
@@ -20,14 +24,25 @@ function Landing() {
         })
     }
 
+    function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+        console.log(formValues)
+        dispatch(setUserDetails({
+            price: formValues.price,
+            make: formValues.make,
+            model: formValues.model,
+            income: formValues.income,
+            credit: formValues.credit
+        }))
+    }
 
     return (
         <div>
             <h1>Landing Page</h1>
-            <form>
+            <form onSubmit={onSubmit}>
                 <label>
                     Auto Purchase Price:
-                    <input name="price" type="number" onChange={onChange} value={formValues.price}/> 
+                    <input name="price" type="number" onChange={(e) => onChange(e)} value={formValues.price}/> 
                 </label>
                 
                 <label>
@@ -49,6 +64,8 @@ function Landing() {
                     User Estimated Credit Score:
                     <input name="credit" type="number" onChange={onChange} value={formValues.credit}/> 
                 </label>
+
+                <button type="submit">SUBMIT</button>
             </form>
         </div>
     )
