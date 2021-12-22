@@ -34,6 +34,7 @@ export default function Signup() {
             username: formValues.username,
             password: formValues.password,
         }))
+        console.log("Sending all data to API to create user account")
     }
 
 
