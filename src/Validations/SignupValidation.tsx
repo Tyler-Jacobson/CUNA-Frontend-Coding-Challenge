@@ -2,8 +2,8 @@ import * as yup from "yup";
 
 export const signupSchema = yup.object().shape({
     username: yup.string().email("Must be a valid email").required(),
-    password: yup.string().min(8, "Must be at least 8 characters").required(),
-    confirmPassword: yup.string().oneOf([yup.ref('password'), null], `Passwords must match`)
+    password: yup.string().matches(/^(?=.*[a-z])((?=.*[0-9])(?=.*[!@#$%^&*\-\\]))\S{1,}$/, "Must contain at least one special character and one number").min(8, "Must be at least 8 characters").required(),
+    confirmPassword: yup.string().oneOf([yup.ref('password')], `Passwords must match`)
 })
 // console.log(yup.ref('password'))
 // console.log(yup.ref('confirmPassword'))
