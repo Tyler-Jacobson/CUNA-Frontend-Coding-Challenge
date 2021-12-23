@@ -2,7 +2,7 @@ import React, { useState, FormEvent } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { CombinedState } from "redux";
 import { setUserDetails, setQualified } from "../actions";
-import { Navigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import mockFetch from "../helperFunctions/mockAPI";
 
 const defaultFormValues = {
@@ -13,10 +13,9 @@ const defaultFormValues = {
     credit: ""
 }
 
-
-
-
 function Landing() {
+
+    
     
     const userDetails = useSelector((state: CombinedState<any>) => state.userDetails)
     const qualified = useSelector((state: CombinedState<any>) => state.qualified)
@@ -24,11 +23,12 @@ function Landing() {
     const [ formValues, setFormValues ] = useState(defaultFormValues)
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
+    if (qualified.isQualified === "disqualified") {
+        return <Navigate to="/disqualified" />
+    }
     
-    // if (qualified.isQualified ==) {
-    //     return <Navigate to="/" />
-    // }
 
 
     function onChange(e: FormEvent<HTMLInputElement>) {
@@ -63,6 +63,8 @@ function Landing() {
                     isQualified: res.isQualified,
                     message: res.message
                 }))
+                console.log("READY TO NAVIGATE")
+                navigate("/signup")
             })
             .catch(err => {
                 dispatch(setQualified({
@@ -70,6 +72,7 @@ function Landing() {
                     message: err.message
                 }))
             })
+            
         }
 
 

@@ -6,7 +6,7 @@
 // type q = qualifiedOptions
 
 
-
+// "undetermined"
 const defaultQualified = {
     isQualified: "",
     message: ""
