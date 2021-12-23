@@ -1,9 +1,13 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { CombinedState } from "redux";
 import { setUserDetails, setQualified } from "../actions";
 import { Navigate, useNavigate } from "react-router-dom"
 import mockFetch from "../helperFunctions/mockAPI";
+import * as yup from "yup";
+import { landingSchema } from "../Validations/LandingValidation";
+import validation from "../helperFunctions/validateErrors";
+
 
 const defaultFormValues = {
     price: "",
@@ -13,25 +17,39 @@ const defaultFormValues = {
     credit: ""
 }
 
+const defaultFormErrors = {
+    price: "",
+    make: "",
+    model: "",
+    income: "",
+    credit: ""
+}
+
 function Landing() {
 
-    
-    
     const userDetails = useSelector((state: CombinedState<any>) => state.userDetails)
     const qualified = useSelector((state: CombinedState<any>) => state.qualified)
 
-    const [ formValues, setFormValues ] = useState(defaultFormValues)
+    const [formValues, setFormValues] = useState(defaultFormValues)
+    const [formErrors, setFormErrors] = useState(defaultFormValues)
+    const [disabled, setDisabled] = useState(true)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    useEffect(() => {
+        landingSchema.isValid(formValues)
+            .then(valid => {
+                setDisabled(!valid)
+            })
+    }, [formValues])
+
     if (qualified.isQualified === "disqualified") {
         return <Navigate to="/disqualified" />
     }
-    
-
 
     function onChange(e: FormEvent<HTMLInputElement>) {
+        validation(e.currentTarget.name, e.currentTarget.valueAsNumber || e.currentTarget.value, landingSchema, formErrors, setFormErrors)
         setFormValues({
             ...formValues,
             [e.currentTarget.name]: e.currentTarget.valueAsNumber || e.currentTarget.value
@@ -50,20 +68,13 @@ function Landing() {
             credit: formValues.credit
         }))
 
-        mockFetch("https://cuna-backend.com/qualified", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: formValues
-            })
+        mockFetch("https://cuna-backend.com/qualified", { method: "GET", body: formValues })
             .then((res: any) => {
                 console.log("Response received with value: " + res)
                 dispatch(setQualified({
                     isQualified: res.isQualified,
                     message: res.message
                 }))
-                console.log("READY TO NAVIGATE")
                 navigate("/signup")
             })
             .catch(err => {
@@ -72,9 +83,7 @@ function Landing() {
                     message: err.message
                 }))
             })
-            
-        }
-
+    }
 
     return (
         <div>
@@ -82,33 +91,43 @@ function Landing() {
             <form onSubmit={onSubmit}>
                 <label>
                     Auto Purchase Price:
-                    <input name="price" type="number" onChange={(e) => onChange(e)} value={formValues.price}/> 
+                    <input name="price" type="number" onChange={(e) => onChange(e)} value={formValues.price} />
+                    <p>{formErrors.price}</p>
                 </label>
-                
+
                 <label>
                     Auto Make:
-                    <input name="make" type="text" onChange={onChange} value={formValues.make}/> 
+                    <input name="make" type="text" onChange={onChange} value={formValues.make} placeholder="Make" />
+                    <p>{formErrors.make}</p>
                 </label>
-                
+
                 <label>
                     Auto Model:
-                    <input name="model" type="text" onChange={onChange} value={formValues.model}/> 
+                    <input name="model" type="text" onChange={onChange} value={formValues.model} placeholder="Model" />
+                    <p>{formErrors.model}</p>
                 </label>
 
                 <label>
                     User Estimated Yearly Income:
-                    <input name="income" type="number" onChange={onChange} value={formValues.income}/> 
+                    <input name="income" type="number" onChange={onChange} value={formValues.income} />
+                    <p>{formErrors.income}</p>
                 </label>
 
                 <label>
                     User Estimated Credit Score:
-                    <input name="credit" type="number" onChange={onChange} value={formValues.credit}/> 
+                    <input name="credit" type="number" onChange={onChange} value={formValues.credit} />
+                    <p>{formErrors.credit}</p>
                 </label>
 
-                <button type="submit">SUBMIT</button>
+                <button type="submit" disabled={disabled}>SUBMIT</button>
             </form>
+
+            {
+                qualified.isQualified === "bad_request" ? <p>{qualified.message}</p> : ""
+            }
         </div>
     )
+    
 }
 
 
