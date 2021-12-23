@@ -1,7 +1,9 @@
-import React, { useState, FormEvent, FC } from "react";
+import React, { useState, FormEvent } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { CombinedState } from "redux";
-import { setUserDetails } from "../actions";
+import { setUserDetails, setQualified } from "../actions";
+import { Navigate } from "react-router-dom"
+import mockFetch from "../helperFunctions/mockAPI";
 
 const defaultFormValues = {
     price: "",
@@ -11,34 +13,23 @@ const defaultFormValues = {
     credit: ""
 }
 
-function mockFetch(url: string, data: any) {
-    
-    return new Promise((resolve, reject) => {
-        console.log("making request for value of " + data)
-        if (url === "https://cuna-backend.com/qualified") {
-            if (data >= 300) {
-                resolve("qualified")
-            } else {
-                reject("disqualified")
-            }
-        } else {
-            reject("bad url")
-        }
-        
-    })
-}
+
 
 
 function Landing() {
     
     const userDetails = useSelector((state: CombinedState<any>) => state.userDetails)
+    const qualified = useSelector((state: CombinedState<any>) => state.qualified)
 
     const [ formValues, setFormValues ] = useState(defaultFormValues)
 
     const dispatch = useDispatch()
 
-
     
+    // if (qualified.isQualified ==) {
+    //     return <Navigate to="/" />
+    // }
+
 
     function onChange(e: FormEvent<HTMLInputElement>) {
         setFormValues({
@@ -49,7 +40,7 @@ function Landing() {
 
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        console.log(formValues)
+        console.log("formValues", formValues)
         dispatch(setUserDetails({
             ...userDetails,
             price: formValues.price,
@@ -59,14 +50,28 @@ function Landing() {
             credit: formValues.credit
         }))
 
-        const response = mockFetch("https://cuna-backend.com/qualified", 500)
-        .then(res => {
-            console.log("Response recieved with value: " + res)
-        })
-        .catch(err => {
-            console.log("Response recieved with value: " + err)
-        })
-    }
+        mockFetch("https://cuna-backend.com/qualified", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: formValues
+            })
+            .then((res: any) => {
+                console.log("Response received with value: " + res)
+                dispatch(setQualified({
+                    isQualified: res.isQualified,
+                    message: res.message
+                }))
+            })
+            .catch(err => {
+                dispatch(setQualified({
+                    isQualified: err.isQualified,
+                    message: err.message
+                }))
+            })
+        }
+
 
     return (
         <div>

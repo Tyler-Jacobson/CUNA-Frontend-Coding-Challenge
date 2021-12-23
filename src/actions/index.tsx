@@ -4,3 +4,10 @@ export const setUserDetails = (formData: {}) => {
         payload: formData
     }
 }
+export const setQualified = (data: any) => {
+    console.log("Data in action: ", data)
+    return {
+        type: "SET_QUALIFIED",
+        payload: data
+    }
+}
