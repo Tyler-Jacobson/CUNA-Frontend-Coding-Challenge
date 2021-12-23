@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Navigate } from "react-router-dom"
 import { CombinedState } from "redux";
 import { setUserDetails } from "../actions";
 
@@ -16,8 +17,13 @@ export default function Signup() {
 
     const [ formValues, setFormValues ] = useState(defaultFormValues)
     const userDetails = useSelector((state: CombinedState<any>) => state.userDetails)
+    const qualified = useSelector((state: CombinedState<any>) => state.qualified)
 
     const dispatch = useDispatch()
+
+    if (qualified.isQualified === "") {
+        return <Navigate to="/" />
+    }
 
     function onChange(e: FormEvent<HTMLInputElement>) {
         setFormValues({
