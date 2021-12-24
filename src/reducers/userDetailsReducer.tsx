@@ -5,22 +5,21 @@ const defaultUserDetails = {
     model: "",
     income: 0,
     credit: 0,
-    username: "",
-    password: ""
+    username: ""
 }
+
+// action should be an interface of the possible values
 
 const userDetailsReducer = (state = defaultUserDetails, action: any) => {
     switch(action.type) {
         case "SET_USER_DETAILS":
-            console.log(action.payload)
             return {
                 price: action.payload.price,
                 make: action.payload.make,
                 model: action.payload.model,
                 income: action.payload.income,
                 credit: action.payload.credit,
-                username: action.payload.username,
-                password: action.payload.password
+                username: action.payload.username
             }
         default:
             return state

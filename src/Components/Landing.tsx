@@ -10,31 +10,18 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DevTool } from "@hookform/devtools";
 
-
-// const defaultFormValues = {
-//     price: "",
-//     make: "",
-//     model: "",
-//     income: "",
-//     credit: ""
-// }
-
-// const defaultFormErrors = {
-//     price: "",
-//     make: "",
-//     model: "",
-//     income: "",
-//     credit: ""
-// }
+interface landingForm {
+    price: number,
+    make: string,
+    model: string,
+    income: number,
+    credit: number
+}
 
 function Landing() {
 
     const userDetails = useSelector((state: CombinedState<any>) => state.userDetails)
     const qualified = useSelector((state: CombinedState<any>) => state.qualified)
-
-    // const [formValues, setFormValues] = useState(defaultFormValues)
-    // const [formErrors, setFormErrors] = useState(defaultFormValues)
-    // const [disabled, setDisabled] = useState(true)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -43,27 +30,11 @@ function Landing() {
         resolver: yupResolver(landingSchema),
     })
 
-
-    // useEffect(() => {
-    //     landingSchema.isValid(formValues)
-    //         .then(valid => {
-    //             setDisabled(!valid)
-    //         })
-    // }, [formValues])
-
     if (qualified.isQualified === "disqualified") {
         return <Navigate to="/disqualified" />
     }
 
-    // function onChange(e: FormEvent<HTMLInputElement>) {
-    //     validation(e.currentTarget.name, e.currentTarget.valueAsNumber || e.currentTarget.value, landingSchema, formErrors, setFormErrors)
-    //     setFormValues({
-    //         ...formValues,
-    //         [e.currentTarget.name]: e.currentTarget.valueAsNumber || e.currentTarget.value
-    //     })
-    // }
-
-    function onSubmit(data: any) {
+    function onSubmit(data: landingForm) {
         const sanitizedData = {
             price: data.price,
             make: data.make,
@@ -134,7 +105,8 @@ function Landing() {
                 qualified.isQualified === "bad_request" ? <p>{qualified.message}</p> : ""
             }
 
-            <DevTool control={control} />
+            {/* <DevTool control={control} /> */}
+            {/* Enable React-Hook-Form dev tools for this component by uncommenting the line above  */}
         </div>
     )
     
