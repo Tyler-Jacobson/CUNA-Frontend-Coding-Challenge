@@ -18,6 +18,9 @@ interface landingForm {
     credit: number
 }
 
+const marketingCopy = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac nibh lobortis felis lacinia faucibus. Phasellus gravida tempus leo sed blandit. Donec diam purus, fermentum at tincidunt sit amet, dapibus sed lectus. Aenean eu laoreet dolor, eu blandit orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie, nisl in aliquam accumsan, nisi sem fermentum dui, dictum finibus justo felis sit amet orci. Duis gravida leo vitae dui vestibulum lobortis. Ut vitae maximus turpis. Phasellus porttitor laoreet erat, vel facilisis neque mattis vitae."
+
+
 function Landing() {
 
     const userDetails = useSelector((state: CombinedState<any>) => state.userDetails)
@@ -67,6 +70,9 @@ function Landing() {
     return (
         <div>
             <h1>Landing Page</h1>
+            <div>
+            <p>{marketingCopy}</p>
+            
             <form onSubmit={handleSubmit(onSubmit)}>
                 <label>
                     Auto Purchase Price:
@@ -100,10 +106,10 @@ function Landing() {
 
                 <input type="submit" id="submit"/>
             </form>
-
             {
                 qualified.isQualified === "bad_request" ? <p>{qualified.message}</p> : ""
             }
+            </div>
 
             {/* <DevTool control={control} /> */}
             {/* Enable React-Hook-Form dev tools for this component by uncommenting the line above  */}
