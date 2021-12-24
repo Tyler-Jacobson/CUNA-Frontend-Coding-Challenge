@@ -49,14 +49,19 @@ function Landing() {
     ]
 
     function onSubmit(data: landingForm) {
+        console.log("SUBMIT DATA:", data)
         dispatch(setUserDetails({
             ...userDetails,
-            data
+            price: data.price,
+            make: data.make,
+            model: data.model,
+            credit: data.credit,
+            income: data.income
         }))
 
         mockFetch("https://cuna-backend.com/qualified", { method: "GET", body: data })
             .then((res: any) => {
-                console.log("Response received with value: " + res)
+                // console.log("Response received with value: " + res)
                 dispatch(setQualified({
                     isQualified: res.isQualified,
                     message: res.message
@@ -84,7 +89,6 @@ function Landing() {
                         I'm really not sure if this is the best solution. I'm worried that it might affect the readability of my code.*/}
                 {
                     inputGenerationData.map((i: any, index: number) => {
-                        console.log("I", i)
                         return renderInput(i.labelText, i.placeholder, i.name, i.type, i.errorMessages, index, register)
                     })
                 }

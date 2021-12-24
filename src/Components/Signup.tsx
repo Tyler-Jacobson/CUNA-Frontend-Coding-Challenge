@@ -34,8 +34,7 @@ export default function Signup() {
     function onSubmit(data: any) {
         dispatch(setUserDetails({
             ...userDetails,
-            username: data.username,
-            password: data.confirmPassword,
+            username: data.username
         }))
         console.log("Sending all data to API to create user account")
     }
@@ -47,41 +46,13 @@ export default function Signup() {
                 <h2>{qualified.message}</h2>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="signup-form">
-                {/* In this situation, I've decided to loop an array of objects, which contains the values needed to generate all of the needed form inputs.
-                        I also considered rendering each input individually using a function, or possibly hard coding every input.
-                        I'm really not sure if this is the best solution. I'm worried that it might affect the readability of my code.*/}
                 {
                     inputGenerationData.map((i: any, index: number) => {
-                        console.log("I", i)
                         return renderInput(i.labelText, i.placeholder, i.name, i.type, i.errorMessages, index, register)
                     })
                 }
-                {
-                    qualified.isQualified === "bad_request" ? <p className="error">{qualified.message}</p> : ""
-                }
-
                 <Button type="submit" name="submit" variant="contained" size="large">SUBMIT</Button>
             </form>
-            {/* <form onSubmit={handleSubmit(onSubmit)}>
-                <label>
-                    Email:
-                    <input {...register('username', { required: true })} type="text" placeholder="example@gmail.com"/>
-                    <p>{errors.username?.message}</p>
-                </label>
-                
-                <label>
-                    Password:
-                    <input {...register('password')} name="password" type="text"/>
-                    <p>{errors.password?.message}</p>
-                </label>
-
-                <label>
-                    Confirm Password:
-                    <input {...register('confirmPassword')} name="confirmPassword" type="text"/>
-                    <p>{errors.confirmPassword?.message}</p>
-                </label>
-                <input type="submit" id="submit"/>
-            </form> */}
 
             {/* <DevTool control={control} /> */}
             {/* Enable React-Hook-Form dev tools for this component by uncommenting the line above  */}
