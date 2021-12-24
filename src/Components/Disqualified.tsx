@@ -15,6 +15,7 @@ export default function Disqualified() {
         <div>
             <h1>Disqualified</h1>
             <h2>{qualified.message}</h2>
+            <p>Please contact us at (123) 456-7890 for more information</p>
         </div>
     )
 }
