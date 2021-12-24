@@ -10,12 +10,14 @@ export default function Disqualified() {
     if (qualified.isQualified === "") {
         return <Navigate to="/" />
     }
-    
+
     return (
-        <div>
-            <h1>Disqualified</h1>
-            <h2>{qualified.message}</h2>
-            <p>Please contact us at (123) 456-7890 for more information</p>
+        <div className="disqualified-page">
+            <div className="disqualified-content">
+                <h1>Disqualified</h1>
+                <h2>{qualified.message}</h2>
+                <p>Please contact us at (123) 456-7890 for more information</p>
+            </div>
         </div>
     )
 }
