@@ -3,12 +3,14 @@ import { CombinedState } from "redux";
 import { setUserDetails, setQualified } from "../actions";
 import { Navigate, useNavigate } from "react-router-dom"
 import mockFetch from "../helperFunctions/mockAPI";
+import renderInput from "../helperFunctions/renderInput"
 // import * as yup from "yup";
 import { landingSchema } from "../Validations/LandingValidation";
 // import validation from "../helperFunctions/validateErrors";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DevTool } from "@hookform/devtools";
+import { Button } from '@mui/material';
 
 interface landingForm {
     price: number,
@@ -29,7 +31,7 @@ function Landing() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const { register, handleSubmit, formState: {errors}, control } = useForm({
+    const { register, handleSubmit, formState: { errors }, control } = useForm({
         resolver: yupResolver(landingSchema),
     })
 
@@ -37,20 +39,22 @@ function Landing() {
         return <Navigate to="/disqualified" />
     }
 
+    // Want this to be of same interface type as what's used in renderInput
+    const inputGenerationData: any = [
+        { labelText: "Auto Purchase Price", placeholder: "$", name: "price", type: "number", registerFunction: register, errorMessages: errors },
+        { labelText: "Auto Make", placeholder: "", name: "make", type: "text", registerFunction: register, errorMessages: errors },
+        { labelText: "Auto Model", placeholder: "", name: "model", type: "text", registerFunction: register, errorMessages: errors },
+        { labelText: "Income", placeholder: "$", name: "income", type: "number", registerFunction: register, errorMessages: errors },
+        { labelText: "Credit", placeholder: "300-850", name: "credit", type: "number", registerFunction: register, errorMessages: errors },
+    ]
+
     function onSubmit(data: landingForm) {
-        const sanitizedData = {
-            price: data.price,
-            make: data.make,
-            model: data.model,
-            income: data.income,
-            credit: data.credit
-        }
         dispatch(setUserDetails({
             ...userDetails,
-            sanitizedData
+            data
         }))
 
-        mockFetch("https://cuna-backend.com/qualified", { method: "GET", body: sanitizedData })
+        mockFetch("https://cuna-backend.com/qualified", { method: "GET", body: data })
             .then((res: any) => {
                 console.log("Response received with value: " + res)
                 dispatch(setQualified({
@@ -68,58 +72,33 @@ function Landing() {
     }
 
     return (
-        <div>
-            <h1>Landing Page</h1>
-            <div>
-            <p>{marketingCopy}</p>
-            
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <label>
-                    Auto Purchase Price:
-                    <input {...register('price')} name="price" type="number" />
-                    <p>{errors.price?.message}</p>
-                </label>
-
-                <label>
-                    Auto Make:
-                    <input {...register('make')} name="make" type="text" />
-                    <p>{errors.make?.message}</p>
-                </label>
-
-                <label>
-                    Auto Model:
-                    <input {...register('model')} name="model" type="text" />
-                    <p>{errors.model?.message}</p>
-                </label>
-
-                <label>
-                    User Estimated Yearly Income:
-                    <input {...register('income')} name="income" type="number" />
-                    <p>{errors.income?.message}</p>
-                </label>
-
-                <label>
-                    User Estimated Credit Score:
-                    <input {...register('credit')} name="credit" type="number" />
-                    <p>{errors.credit?.message}</p>
-                </label>
-
-                <input type="submit" id="submit"/>
-            </form>
-            {
-                qualified.isQualified === "bad_request" ? <p>{qualified.message}</p> : ""
-            }
+        <div className="landing-page">
+            <div className="landing-copy-container">
+                <h1>Landing Page</h1>
+                <p>{marketingCopy}</p>
             </div>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="landing-form">
+                {/* In this situation, I've decided to loop an array of objects, which contains the values needed to generate all of the needed form inputs.
+                        I also considered rendering each input individually using a function, or possibly hard coding every input.
+                        I'm really not sure if this is the best solution. I'm worried that it might affect the readability of my code.*/}
+                {
+                    inputGenerationData.map((i: any, index: number) => {
+                        console.log("I", i)
+                        return renderInput(i.labelText, i.placeholder, i.name, i.type, i.errorMessages, index, register)
+                    })
+                }
+                {
+                    qualified.isQualified === "bad_request" ? <p className="error">{qualified.message}</p> : ""
+                }
+
+                <Button type="submit" name="submit" variant="contained" size="large">SUBMIT</Button>
+            </form>
 
             {/* <DevTool control={control} /> */}
             {/* Enable React-Hook-Form dev tools for this component by uncommenting the line above  */}
         </div>
     )
-    
 }
 
-
-
-
 export default Landing
-
