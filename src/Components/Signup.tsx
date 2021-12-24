@@ -5,7 +5,6 @@ import { setUserDetails } from "../actions";
 import { signupSchema } from "../Validations/SignupValidation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import { DevTool } from "@hookform/devtools";
 
 
@@ -58,7 +57,8 @@ export default function Signup() {
                 <input type="submit" id="submit"/>
             </form>
 
-            <DevTool control={control} />
+            {/* <DevTool control={control} /> */}
+            {/* Enable React-Hook-Form dev tools for this component by uncommenting the line above  */}
         </div>
     )
 }
