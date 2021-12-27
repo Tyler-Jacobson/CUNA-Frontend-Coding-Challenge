@@ -1,4 +1,4 @@
-import { UseFormRegister,FieldValues } from "react-hook-form";
+import { UseFormRegister, FieldValues } from "react-hook-form";
 
 export interface userData {
     price: number,
@@ -25,12 +25,12 @@ export interface request {
     method: string
 }
 
-export interface formCreation { 
-    labelText: string, 
-    placeholder: string, 
-    name: string, 
-    type: string, 
-    registerFunction: UseFormRegister<FieldValues>, 
+export interface formCreation {
+    labelText: string,
+    placeholder: string,
+    name: string,
+    type: string,
+    registerFunction: UseFormRegister<FieldValues>,
     [errorMessages: string]: any;
 }
 

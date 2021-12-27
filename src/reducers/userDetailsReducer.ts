@@ -10,7 +10,7 @@ const defaultUserDetails = {
 }
 
 const userDetailsReducer = (state: userData = defaultUserDetails, action: userAction) => {
-    switch(action.type) {
+    switch (action.type) {
         case "SET_USER_DETAILS":
             return {
                 price: action.payload.price,

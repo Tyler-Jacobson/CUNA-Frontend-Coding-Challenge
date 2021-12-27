@@ -3,7 +3,6 @@ import { request } from "../common/types"
 function mockAPI(url: string, data: request) {
     return new Promise((resolve, reject) => {
         const userData = data.body
-        console.log("credit:", userData.credit, "income:", userData.income, "purchase price:", userData.price)
 
         if (url === "https://cuna-backend.com/qualified" && data.method === "GET") {
             if (userData.price >= 1000000) {
@@ -14,7 +13,7 @@ function mockAPI(url: string, data: request) {
                 reject({ isQualified: "disqualified", message: "Sorry, you are not qualified" })
             }
         } else {
-            reject({ isQualified: "bad_request", message: "Bad Request" })
+            reject({ isQualified: "no_route", message: "Route not found" })
         }
     })
 }

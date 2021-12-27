@@ -7,8 +7,6 @@ import Disqualified from './Components/Disqualified';
 function App() {
   return (
     <div className="App">
-
-
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<Signup />} />
