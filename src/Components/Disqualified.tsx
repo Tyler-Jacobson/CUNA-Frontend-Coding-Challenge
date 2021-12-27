@@ -3,7 +3,6 @@ import { useSelector } from "react-redux"
 import { Navigate } from "react-router-dom"
 import { CombinedState } from "redux";
 
-
 export default function Disqualified() {
     const qualified = useSelector((state: CombinedState<any>) => state.qualified)
 

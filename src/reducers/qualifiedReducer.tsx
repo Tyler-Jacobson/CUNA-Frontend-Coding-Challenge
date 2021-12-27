@@ -1,18 +1,11 @@
-// interface qualifiedOptions {
-//     type: "qualified" | "disqualified" | "unknown"
-//     q: string
-// }
+import { qualifiedOptions, qualifiedAction } from "../common/types"
 
-// type q = qualifiedOptions
-
-
-// "undetermined"
 const defaultQualified = {
     isQualified: "",
     message: ""
 }
 
-const qualifiedReducer = (state: any = defaultQualified, action: any) => {
+const qualifiedReducer = (state: qualifiedOptions = defaultQualified, action: qualifiedAction) => {
     // let validQualifiedOption = action.payload.isQualified
     console.log("ACTION.PAYLOAD", action.payload)
 
