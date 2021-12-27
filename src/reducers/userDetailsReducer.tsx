@@ -1,3 +1,4 @@
+import { userData, userAction } from "../common/types"
 
 const defaultUserDetails = {
     price: 0,
@@ -8,9 +9,7 @@ const defaultUserDetails = {
     username: ""
 }
 
-// action should be an interface of the possible values
-
-const userDetailsReducer = (state = defaultUserDetails, action: any) => {
+const userDetailsReducer = (state: userData = defaultUserDetails, action: userAction) => {
     switch(action.type) {
         case "SET_USER_DETAILS":
             return {

@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { DevTool } from "@hookform/devtools";
 import { Button } from '@mui/material';
 import renderInput from "../helperFunctions/renderInput"
+import { formCreation, signupData } from "../common/types";
 
 
 export default function Signup() {
@@ -25,17 +26,18 @@ export default function Signup() {
         return <Navigate to="/" />
     }
 
-    const inputGenerationData: any = [
+    const inputGenerationData: formCreation[] = [
         { labelText: "Username", placeholder: "example@gmail.com", name: "username", type: "text", registerFunction: register, errorMessages: errors },
         { labelText: "Password", placeholder: "", name: "password", type: "password", registerFunction: register, errorMessages: errors },
         { labelText: "Confirm Password", placeholder: "", name: "confirmPassword", type: "password", registerFunction: register, errorMessages: errors },
     ]
 
-    function onSubmit(data: any) {
+    function onSubmit(data: signupData) {
         dispatch(setUserDetails({
             ...userDetails,
             username: data.username
         }))
+
         console.log("Sending all data to API to create user account")
     }
 
@@ -47,7 +49,7 @@ export default function Signup() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="signup-form">
                 {
-                    inputGenerationData.map((i: any, index: number) => {
+                    inputGenerationData.map((i: formCreation, index: number) => {
                         return renderInput(i.labelText, i.placeholder, i.name, i.type, i.errorMessages, index, register)
                     })
                 }

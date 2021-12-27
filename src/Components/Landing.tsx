@@ -11,14 +11,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DevTool } from "@hookform/devtools";
 import { Button } from '@mui/material';
+import { userData, formCreation } from "../common/types";
 
-interface landingForm {
-    price: number,
-    make: string,
-    model: string,
-    income: number,
-    credit: number
-}
 
 const marketingCopy = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac nibh lobortis felis lacinia faucibus. Phasellus gravida tempus leo sed blandit. Donec diam purus, fermentum at tincidunt sit amet, dapibus sed lectus. Aenean eu laoreet dolor, eu blandit orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie, nisl in aliquam accumsan, nisi sem fermentum dui, dictum finibus justo felis sit amet orci. Duis gravida leo vitae dui vestibulum lobortis. Ut vitae maximus turpis. Phasellus porttitor laoreet erat, vel facilisis neque mattis vitae."
 
@@ -40,7 +34,7 @@ function Landing() {
     }
 
     // Want this to be of same interface type as what's used in renderInput
-    const inputGenerationData: any = [
+    const inputGenerationData: formCreation[] = [
         { labelText: "Auto Purchase Price", placeholder: "$", name: "price", type: "number", registerFunction: register, errorMessages: errors },
         { labelText: "Auto Make", placeholder: "", name: "make", type: "text", registerFunction: register, errorMessages: errors },
         { labelText: "Auto Model", placeholder: "", name: "model", type: "text", registerFunction: register, errorMessages: errors },
@@ -48,7 +42,7 @@ function Landing() {
         { labelText: "Credit", placeholder: "300-850", name: "credit", type: "number", registerFunction: register, errorMessages: errors },
     ]
 
-    function onSubmit(data: landingForm) {
+    function onSubmit(data: userData) {
         console.log("SUBMIT DATA:", data)
         dispatch(setUserDetails({
             ...userDetails,
@@ -88,7 +82,7 @@ function Landing() {
                         I also considered rendering each input individually using a function, or possibly hard coding every input.
                         I'm really not sure if this is the best solution. I'm worried that it might affect the readability of my code.*/}
                 {
-                    inputGenerationData.map((i: any, index: number) => {
+                    inputGenerationData.map((i: formCreation, index: number) => {
                         return renderInput(i.labelText, i.placeholder, i.name, i.type, i.errorMessages, index, register)
                     })
                 }

@@ -1,4 +1,6 @@
-function mockAPI(url: string, data: any) {
+import { request } from "../common/types"
+
+function mockAPI(url: string, data: request) {
     return new Promise((resolve, reject) => {
         const userData = data.body
         console.log("credit:", userData.credit, "income:", userData.income, "purchase price:", userData.price)
@@ -12,9 +14,8 @@ function mockAPI(url: string, data: any) {
                 reject({ isQualified: "disqualified", message: "Sorry, you are not qualified" })
             }
         } else {
-            reject("invalid request")
+            reject({ isQualified: "bad_request", message: "Bad Request" })
         }
-
     })
 }
 
