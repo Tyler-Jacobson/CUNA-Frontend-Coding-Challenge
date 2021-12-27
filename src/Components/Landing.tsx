@@ -4,18 +4,14 @@ import { setUserDetails, setQualified } from "../actions";
 import { Navigate, useNavigate } from "react-router-dom"
 import mockFetch from "../helperFunctions/mockAPI";
 import renderInput from "../helperFunctions/renderInput"
-// import * as yup from "yup";
 import { landingSchema } from "../Validations/LandingValidation";
-// import validation from "../helperFunctions/validateErrors";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { DevTool } from "@hookform/devtools";
 import { Button } from '@mui/material';
 import { userData, formCreation } from "../common/types";
 
-
 const marketingCopy = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac nibh lobortis felis lacinia faucibus. Phasellus gravida tempus leo sed blandit. Donec diam purus, fermentum at tincidunt sit amet, dapibus sed lectus. Aenean eu laoreet dolor, eu blandit orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie, nisl in aliquam accumsan, nisi sem fermentum dui, dictum finibus justo felis sit amet orci. Duis gravida leo vitae dui vestibulum lobortis. Ut vitae maximus turpis. Phasellus porttitor laoreet erat, vel facilisis neque mattis vitae."
-
 
 function Landing() {
 
@@ -43,7 +39,6 @@ function Landing() {
     ]
 
     function onSubmit(data: userData) {
-        console.log("SUBMIT DATA:", data)
         dispatch(setUserDetails({
             ...userDetails,
             price: data.price,
@@ -55,7 +50,6 @@ function Landing() {
 
         mockFetch("https://cuna-backend.com/qualified", { method: "GET", body: data })
             .then((res: any) => {
-                // console.log("Response received with value: " + res)
                 dispatch(setQualified({
                     isQualified: res.isQualified,
                     message: res.message
@@ -80,7 +74,7 @@ function Landing() {
             <form onSubmit={handleSubmit(onSubmit)} className="landing-form">
                 {/* In this situation, I've decided to loop an array of objects, which contains the values needed to generate all of the needed form inputs.
                         I also considered rendering each input individually using a function, or possibly hard coding every input.
-                        I'm really not sure if this is the best solution. I'm worried that it might affect the readability of my code.*/}
+                        I'm not sure if this is the best possible solution. I'm worried that it might affect the readability of my code.*/}
                 {
                     inputGenerationData.map((i: formCreation, index: number) => {
                         return renderInput(i.labelText, i.placeholder, i.name, i.type, i.errorMessages, index, register)

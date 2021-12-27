@@ -38,7 +38,12 @@ export default function Signup() {
             username: data.username
         }))
 
-        console.log("Sending all data to API to create user account")
+        console.log("Sending this data to API to create user account")
+        console.log({
+            ...userDetails,
+            username: data.username,
+            password: data.password
+        })
     }
 
     return (
