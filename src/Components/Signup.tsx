@@ -10,8 +10,10 @@ import { Button } from '@mui/material';
 import renderInput from "../helperFunctions/renderInput"
 import { formCreation, signupData } from "../common/types";
 
+// this is for testing purposes
+interface AppProps { testClick?: any; };
 
-export default function Signup() {
+export default function Signup({ testClick }: AppProps) {
 
     const userDetails = useSelector((state: CombinedState<any>) => state.userDetails)
     const qualified = useSelector((state: CombinedState<any>) => state.qualified)
@@ -38,8 +40,7 @@ export default function Signup() {
             username: data.username
         }))
 
-        console.log("Sending this data to API to create user account")
-        console.log({
+        console.log("Sending this data to API to create user account:", {
             ...userDetails,
             username: data.username,
             password: data.password
