@@ -5,7 +5,7 @@ import { UseFormRegister, FieldValues } from 'react-hook-form';
 
 function renderInput(labelText: string, placeholder: string, name: string, type: string, errorMessages: any, index: number, registerFunction: UseFormRegister<FieldValues>) {
     return (
-        <div key={index}>
+        <div key={index} data-testid={`input-${name}`}>
             <TextField className="input-container" {...registerFunction(name)} type={type} label={labelText} variant="outlined" placeholder={placeholder} error={!!errorMessages[name]?.message} helperText={errorMessages[name] ? errorMessages[name]?.message : ""} />
         </div>
     )

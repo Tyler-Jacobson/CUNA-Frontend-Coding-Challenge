@@ -47,7 +47,7 @@ export default function Signup() {
     }
 
     return (
-        <div className="signup-page">
+        <div className="signup-page" data-testid="signup-rendered">
             <div className="signup-copy-container">
                 <h1>Sign Up Here</h1>
                 <h2>{qualified.message}</h2>
