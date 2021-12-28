@@ -1,23 +1,8 @@
-import { fireEvent, render as rtlRender, screen } from "@testing-library/react";
-import { createStore, combineReducers } from "redux";
-import { Provider } from "react-redux";
-import qualifiedReducer from "../reducers/qualifiedReducer";
-import userDetailsReducer from "../reducers/userDetailsReducer";
-import { BrowserRouter } from "react-router-dom";
+import { fireEvent, screen } from "@testing-library/react";
 import Landing from "../Components/Landing";
-import userEvent from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event';
+import { renderWithRedux } from "./testSetup"
 
-
-function createTestStore(initialState) {
-    const store = createStore(combineReducers({ userDetails: userDetailsReducer, qualified: qualifiedReducer }), initialState);
-    return store;
-}
-
-function renderWithRedux(component, { initialState, store = createTestStore(initialState) } = {}) {
-    return {
-        ...rtlRender(<Provider store={store}><BrowserRouter>{component}</BrowserRouter></Provider>)
-    }
-}
 
 
 describe("with valid inputs", () => {
@@ -42,9 +27,9 @@ describe("with valid inputs", () => {
     it("correctly fills 'auto model' field", () => {
         renderWithRedux(<Landing />)
 
-        expect(screen.queryByDisplayValue("S")).not.toBeInTheDocument()
-        fireEvent.change(screen.getByLabelText(/auto model/i), { target: { value: "S" } })
-        expect(screen.getByDisplayValue("S")).toBeInTheDocument();
+        expect(screen.queryByDisplayValue("Roadster")).not.toBeInTheDocument()
+        fireEvent.change(screen.getByLabelText(/auto model/i), { target: { value: "Roadster" } })
+        expect(screen.getByDisplayValue("Roadster")).toBeInTheDocument();
     })
 
     it("correctly fills 'income' field", () => {
@@ -64,7 +49,7 @@ describe("with valid inputs", () => {
     })
 
     it("correctly displays errors for invalid form fields", async () => {
-        renderWithRedux(<Landing onSubmit={mockOnSubmit()} />)
+        renderWithRedux(<Landing testClick={mockOnSubmit()} />)
 
         expect(screen.queryByText(/price is required/i)).not.toBeInTheDocument()
         expect(screen.queryByText(/make is required/i)).not.toBeInTheDocument()
@@ -74,7 +59,7 @@ describe("with valid inputs", () => {
 
         userEvent.click(screen.getByText(/submit/i))
 
-        expect(mockOnSubmit).toHaveBeenCalledTimes(1)
+        expect(mockOnSubmit).toHaveBeenCalled()
 
         expect(await screen.findByText(/price is required/i)).toBeInTheDocument()
         expect(await screen.findByText(/make is required/i)).toBeInTheDocument()
@@ -84,10 +69,10 @@ describe("with valid inputs", () => {
     })
 
     it("allows the user to submit the form when all fields are correct", async () => {
-        renderWithRedux(<Landing onSubmit={mockOnSubmit()} />)
+        renderWithRedux(<Landing testClick={mockOnSubmit()} />)
         fireEvent.change(screen.getByLabelText(/auto purchase price/i), { target: { value: 500 } })
         fireEvent.change(screen.getByLabelText(/auto make/i), { target: { value: "Tesla" } })
-        fireEvent.change(screen.getByLabelText(/auto model/i), { target: { value: "S" } })
+        fireEvent.change(screen.getByLabelText(/auto model/i), { target: { value: "Roadster" } })
         fireEvent.change(screen.getByLabelText(/income/i), { target: { value: 50000 } })
         fireEvent.change(screen.getByLabelText(/credit/i), { target: { value: 700 } })
 

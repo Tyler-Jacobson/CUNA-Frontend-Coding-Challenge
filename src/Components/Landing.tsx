@@ -13,7 +13,9 @@ import { userData, formCreation } from "../common/types";
 
 const marketingCopy = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac nibh lobortis felis lacinia faucibus. Phasellus gravida tempus leo sed blandit. Donec diam purus, fermentum at tincidunt sit amet, dapibus sed lectus. Aenean eu laoreet dolor, eu blandit orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie, nisl in aliquam accumsan, nisi sem fermentum dui, dictum finibus justo felis sit amet orci. Duis gravida leo vitae dui vestibulum lobortis. Ut vitae maximus turpis. Phasellus porttitor laoreet erat, vel facilisis neque mattis vitae."
 
-function Landing() {
+interface AppProps { testClick?: any; };
+
+function Landing({ testClick }: AppProps) {
 
     const userDetails = useSelector((state: CombinedState<any>) => state.userDetails)
     const qualified = useSelector((state: CombinedState<any>) => state.qualified)
