@@ -15,7 +15,7 @@ You can now run:
 To view the app
 
 And run
-### `npm test`
+### `npm test a`
 To run tests
 
 
