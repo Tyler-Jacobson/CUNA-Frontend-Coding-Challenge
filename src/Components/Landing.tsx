@@ -13,6 +13,7 @@ import { userData, formCreation } from "../common/types";
 
 const marketingCopy = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac nibh lobortis felis lacinia faucibus. Phasellus gravida tempus leo sed blandit. Donec diam purus, fermentum at tincidunt sit amet, dapibus sed lectus. Aenean eu laoreet dolor, eu blandit orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris molestie, nisl in aliquam accumsan, nisi sem fermentum dui, dictum finibus justo felis sit amet orci. Duis gravida leo vitae dui vestibulum lobortis. Ut vitae maximus turpis. Phasellus porttitor laoreet erat, vel facilisis neque mattis vitae."
 
+// this allows the test to use a mock click handler with typescript
 interface AppProps { testClick?: any; };
 
 function Landing({ testClick }: AppProps) {
@@ -74,9 +75,11 @@ function Landing({ testClick }: AppProps) {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="landing-form">
+
                 {/* In this situation, I've decided to loop an array of objects, which contains the values needed to generate all of the needed form inputs.
                         I also considered rendering each input individually using a function, or possibly hard coding every input.
-                        I'm not sure if this is the best possible solution. I'm worried that it might affect the readability of my code.*/}
+                        I'm not sure if this is the best possible solution. I'm worried that it might affect the readability of 
+                        my code, in exchange for making it easier to change things related to <input /> rendering*/}
                 {
                     inputGenerationData.map((i: formCreation, index: number) => {
                         return renderInput(i.labelText, i.placeholder, i.name, i.type, i.errorMessages, index, register)

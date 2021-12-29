@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 import renderInput from "../helperFunctions/renderInput"
 import { formCreation, signupData } from "../common/types";
 
-// this is for testing purposes
+// this allows the test to use a mock click handler with typescript
 interface AppProps { testClick?: any; };
 
 export default function Signup({ testClick }: AppProps) {
