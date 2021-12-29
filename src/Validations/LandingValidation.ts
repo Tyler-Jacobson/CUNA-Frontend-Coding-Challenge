@@ -1,6 +1,5 @@
 import * as yup from "yup";
 
-
 export const landingSchema = yup.object().shape({
     price: yup.number().transform(value => (isNaN(value) ? undefined : value)).required("Price is required"),
     make: yup.string().typeError("Must be a string").required('Make is required'),
